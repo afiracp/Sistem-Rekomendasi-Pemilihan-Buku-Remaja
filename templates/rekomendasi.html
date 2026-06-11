@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}Cari Rekomendasi{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row d-flex align-items-center justify-content-between">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 d-none d-md-block">
+            <div class="hero__img" data-animation="bounceIn" data-delay=".4s">
+                <img src="{{ url_for('static', filename='img/home.png') }}" alt="" style="max-width: 100%; height: auto; object-fit: contain;">
+            </div>
+        </div>
+        <div class="col-xl-5 col-lg-5 col-md-6 col-sm-8">
+            <h2 class="mb-3">Sistem Rekomendasi Pemilihan Buku Remaja</h2>
+            <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
+                <p>Temukan Buku yang Sesuai dengan Minat Anda</p>
+                <form action="/recommend" method="POST" class="search-box">
+                    <input type="text" name="title" class="form-control" 
+                           placeholder="Masukkan preferensi buku..." required>
+                    <button class="btn btn-primary mt-3">Cari Rekomendasi</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

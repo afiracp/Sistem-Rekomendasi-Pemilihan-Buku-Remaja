@@ -1,0 +1,294 @@
+{% extends "admin/layout.html" %}
+{% block title %}Data Buku{% endblock %}
+{% block content %}
+
+<section class="section">
+    <div class="section-header">
+        <h1>Data Buku</h1>
+    </div>
+
+    <div class="section-body">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header-action">
+                <button class="btn btn-primary"
+                        data-toggle="modal"
+                        data-target="#modalTambah">
+                    <i class="fas fa-plus"></i> Tambah Buku
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+             {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID Buku</th>
+                            <th>Gambar</th>
+                            <th>Judul</th>
+                            <th>Kategori</th>
+                            <th>Penulis</th>
+                            <th>Penerbit</th>
+                            <th>Tahun</th>
+                            <th width="220">Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for book in hasil %}
+                        <tr>
+                            <td>{{ book.ID_Buku }}</td>
+                            <td>{% if book.Gambar %}
+                                {% if book.Gambar.startswith('http') %}
+                                <img src="{{ book.Gambar }}" width="70" class="img-thumbnail">
+                                {% else %}
+                                <img src="{{ url_for('static', filename=book.Gambar) }}"width="70"class="img-thumbnail">
+                                {% endif %}
+                                {% else %}
+                                    <span class="text-muted">Tidak ada gambar</span>
+                                {% endif %}
+                            </td>                           
+                            <td>{{ book.Judul }}</td>
+                            <td>{{ book.Kategori }}</td>
+                            <td>{{ book.Penulis }}</td>
+                            <td>{{ book.Penerbit }}</td>
+                            <td>{{ book.Tahun_Terbit }}</td>
+                            <td>
+                                <a href="{{ url_for('detail_buku',book_id=book.ID_Buku) }}" class="btn btn-info btn-sm">Detail</a>
+                                <button class="btn btn-warning btn-sm" data-toggle="modal"data-target="#edit{{ book.ID_Buku }}">Edit</button>
+                                <a href="{{ url_for('hapus_buku',book_id=book.ID_Buku) }}" onclick="return confirm('Yakin hapus data?')"class="btn btn-danger btn-sm">Hapus</a>
+                            </td>
+                        </tr>
+
+                        <!-- Modal Edit -->
+                        <div class="modal fade" id="edit{{ book.ID_Buku }}" tabindex="-1" data-backdrop="false">
+                            <div class="modal-dialog modal-lg modal-dialog-scrollable"> 
+                                <div class="modal-content">
+                                <form action="{{ url_for('edit_buku', id_buku=book.ID_Buku) }}" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title"> Edit Buku</h5>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <span>&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Judul</label>
+                                            <input type="text" name="judul" class="form-control" value="{{ book.Judul }}">
+                                        </div>
+                                    <div class="form-group"><label>Kategori</label>
+                                        <select name="id_kategori"class="form-control"required>{% for k in kategori %}
+                                            <option value="{{ k.ID_Kategori }}" {% if k.ID_Kategori == book.ID_Kategori %} selected {% endif %}>{{ k.Kategori }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                        <div class="form-group">
+                                            <label>Penulis</label>
+                                            <input type="text" name="penulis" class="form-control" value="{{ book.Penulis }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Penerbit</label>
+                                            <input type="text" name="penerbit" class="form-control" value="{{ book.Penerbit }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tahun Terbit</label>
+                                            <input type="text" name="tahun_terbit" class="form-control" value="{{ book.Tahun_Terbit }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Deskripsi</label>
+                                            <textarea name="deskripsi"class="form-control" rows="4">{{ book.Deskripsi }}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Gambar Buku</label>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="edit_url{{ book.ID_Buku }}" name="gambar_type" value="url" checked class="custom-control-input">
+                                                <label class="custom-control-label" for="edit_url{{ book.ID_Buku }}"> URL Gambar</label>
+                                            </div>
+                                            <div class="custom-control custom-radio mb-3">
+                                                <input type="radio"
+                                                    id="edit_upload{{ book.ID_Buku }}"
+                                                    name="gambar_type"
+                                                    value="upload"
+                                                    class="custom-control-input">
+                                                <label class="custom-control-label"for="edit_upload{{ book.ID_Buku }}">Upload File</label>
+                                            </div>
+                                            <input type="text" id="edit_gambar_url{{ book.ID_Buku }}" name="gambar_url" class="form-control" value="{{ book.Gambar }}" placeholder="https://...">
+                                            <input type="file" id="edit_gambar_file{{ book.ID_Buku }}" name="gambar_file" class="form-control mt-2" accept=".jpg,.jpeg,.png" style="display:none;">
+                                        </div>
+                                    </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                        </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                        document.addEventListener("DOMContentLoaded", function(){
+                            document.querySelectorAll('[id^="edit_upload"]').forEach(function(radio){
+                                radio.addEventListener("change", function(){
+                                    let id =
+                                        this.id.replace("edit_upload","");
+                                    document.getElementById(
+                                        "edit_gambar_url" + id
+                                    ).style.display = "none";
+                                    document.getElementById("edit_gambar_file" + id).style.display = "block";
+                                });
+                            });
+
+                            document.querySelectorAll('[id^="edit_url"]').forEach(function(radio){
+                                radio.addEventListener("change", function(){
+                                    let id =
+                                        this.id.replace("edit_url","");
+                                    document.getElementById(
+                                        "edit_gambar_url" + id
+                                    ).style.display = "block";
+                                    document.getElementById(
+                                        "edit_gambar_file" + id
+                                    ).style.display = "none";
+                                });
+                            });
+                        });
+                        </script>      
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="card-footer text-center">
+                    <nav class="d-inline-block">
+                        <ul class="pagination mb-0">
+                            <li class="page-item {% if page == 1 %}disabled{% endif %}"><a class="page-link" href="{{ url_for('data_buku', page=page-1) }}"><i class="fas fa-chevron-left"></i></a>
+                            </li>
+                            {% set start_page = page - 2 %}
+                            {% set end_page = page + 2 %}
+
+                            {% if start_page < 1 %}
+                                {% set start_page = 1 %}
+                            {% endif %}
+
+                            {% if end_page > total_pages %}
+                                {% set end_page = total_pages %}
+                            {% endif %}
+
+                            <!-- Halaman Pertama -->
+                            {% if start_page > 1 %}
+                            <li class="page-item"><a class="page-link" href="{{ url_for('data_buku', page=1) }}">1</a></li>
+                            {% if start_page > 2 %}
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                            {% endif %}
+                            {% endif %}
+                            <!-- Halaman Tengah -->
+                            {% for p in range(start_page, end_page + 1) %}
+                            <li class="page-item {% if p == page %}active{% endif %}"><a class="page-link" href="{{ url_for('data_buku', page=p) }}">{{ p }}</a></li>
+                            {% endfor %}
+                            <!-- Halaman Terakhir -->
+                            {% if end_page < total_pages %}
+                            {% if end_page < total_pages - 1 %}
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                            {% endif %}
+                            <li class="page-item"><a class="page-link"href="{{ url_for('data_buku', page=total_pages) }}"> {{ total_pages }}</a></li>
+                            {% endif %}
+                            <!-- Tombol Berikutnya -->
+                            <li class="page-item {% if page == total_pages %}disabled{% endif %}"><a class="page-link"href="{{ url_for('data_buku', page=page+1) }}"><i class="fas fa-chevron-right"></i></a></li>
+                        </ul>
+                    </nav>
+                    <div class="mt-2"><small class="text-muted">Halaman {{ page }} dari {{ total_pages }}</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!-- MODAL TAMBAH -->
+<div class="modal fade" id="modalTambah" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="{{ url_for('tambah_buku') }}" method="POST" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tambah Buku</h5>
+                        <button type="button"class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID Buku</label>
+                            <input type="number" name="id_buku" class="form-control" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Judul</label>
+                            <input type="text"name="judul" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Kategori</label>
+                                <select name="id_kategori" class="form-control" required>
+                                <option value="">-- Pilih Kategori --</option>
+                                {% for k in kategori %}
+                                <option value="{{ k.ID_Kategori }}">{{ k.Kategori }}</option>
+                                {% endfor %}
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Penulis</label>
+                            <input type="text" name="penulis" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Penerbit</label>
+                            <input type="text" name="penerbit" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Tahun Terbit</label>
+                            <input type="text" name="tahun_terbit" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Deskripsi</label>
+                            <textarea name="deskripsi" rows="4" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Gambar Buku</label>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="url" name="gambar_type" value="url" checked class="custom-control-input">
+                                <label class="custom-control-label" for="url">URL Gambar</label>
+                            </div>
+                            <div class="custom-control custom-radio mb-3">
+                                <input type="radio"
+                                    id="upload"
+                                    name="gambar_type"
+                                    value="upload"
+                                    class="custom-control-input">
+                                <label class="custom-control-label" for="upload"> Upload File </label>
+                            </div>
+                            <input type="text" id="gambar_url" name="gambar_url" class="form-control" placeholder="https://...">
+                            <input type="file" id="gambar_file" name="gambar_file" class="form-control mt-2" style="display:none;">
+                        </div>
+                    <script>
+                    document.querySelectorAll('input[name="gambar_type"]').forEach(radio => {
+                        radio.addEventListener('change', function() {
+                            if(this.value === 'url'){
+                                document.getElementById('gambar_url').style.display = 'block';
+                                document.getElementById('gambar_file').style.display = 'none';
+                            }else{
+                                document.getElementById('gambar_url').style.display = 'none';
+                                document.getElementById('gambar_file').style.display = 'block';
+                            }
+                        });
+                    });
+                    </script>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

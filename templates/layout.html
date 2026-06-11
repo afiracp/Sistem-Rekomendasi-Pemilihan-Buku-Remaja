@@ -1,0 +1,114 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Sistem Rekomendasi Pemilihan Buku Remaja</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- CSS here -->
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" >
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/flaticon.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/slicknav.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome-all.min.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/slick.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+   </head>
+
+   <body>
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+            </div>
+        </div>
+    </div>
+
+  <header>
+        <!-- Header Start -->
+       <div class="header-area">
+            <div class="main-header">
+               <div class="header-bottom header-sticky">
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <!-- Logo -->
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
+                                <div class="logo" style="left:20px; z-index:10;">
+                                  <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo.png') }}" style="height:70px; width:auto;"></a>
+                                </div>
+                            </div>
+                            <div class="col-xl-11 col-lg-11 col-md-11">
+                            <div class="main-menu f-right">
+                                <ul id="navigation"> 
+                                    <li><a href="{{ url_for('index') }}">Beranda</a></li>
+                                    <li><a href="{{ url_for('rekomendasi') }}">Cari Rekomendasi</a></li>
+                                    <li><a href="{{ url_for('buku') }}">Buku</a></li>
+                                 </ul> 
+                            </div>
+                            </div>
+                                <!-- Mobile Menu -->
+                            <div class="col-12">
+                                <div class="mobile_menu d-block d-lg-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+             </div>
+        </div>        
+    </header>
+
+<main>
+    <div class="slider-area">
+        <div class="slider-active">
+            <div class="single-slider slider-height d-flex align-items-center"
+             data-background="{{ url_for('static', filename='img/hero/h1_hero.jpg') }}">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    {% block extra_content %}{% endblock %}
+</main>
+    
+    	<!-- JS here -->
+	
+		<!-- All JS Custom Plugins Link Here here -->
+        <script src="{{ url_for('static', filename='js/vendor/modernizr-3.5.0.min.js') }}"></script>
+		<!-- Jquery, Popper, Bootstrap -->
+		<script src="{{ url_for('static', filename='js/vendor/jquery-1.12.4.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	    <!-- Jquery Mobile Menu -->
+        <script src="{{ url_for('static', filename='js/jquery.slicknav.min.js') }}"></script>
+
+		<!-- Jquery Slick , Owl-Carousel Plugins -->
+        <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/slick.min.js') }}"></script>
+
+		<!-- One Page, Animated-HeadLin -->
+        <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/animated.headline.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.magnific-popup.js') }}"></script>
+
+		<!-- Scrollup, nice-select, sticky -->
+        <script src="{{ url_for('static', filename='js/jquery.scrollUp.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/jquery.sticky.js') }}"></script>
+
+        <!-- contact js -->
+        <script src="{{ url_for('static', filename='js/contact.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.form.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.validate.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/mail-script.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.ajaxchimp.min.js') }}"></script>
+        
+		<!-- Jquery Plugins, main Jquery -->	
+        <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+        
+    </body>
+</html>

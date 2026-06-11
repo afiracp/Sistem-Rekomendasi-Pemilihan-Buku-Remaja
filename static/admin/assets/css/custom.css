@@ -1,0 +1,33 @@
+/**
+ *
+ * You can write your CSS code here, DO NOT touch the default JavaScript file
+ * because it will make it harder for you to update.
+ * 
+ */
+
+/*# sourceMappingURL=custom.css.map */
+
+.modal {
+    z-index: 99999 !important;
+}
+
+.modal-backdrop {
+    z-index: 9990 !important;
+}
+
+.modal-dialog {
+    pointer-events: auto !important;
+}
+
+.modal-body{
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.navbar-bg{
+    z-index: 1 !important;
+}
+
+.main-navbar{
+    z-index: 100 !important;
+}

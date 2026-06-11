@@ -1,0 +1,161 @@
+{% extends "layout.html" %}
+{% block title %}Daftar Buku{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-4">
+        <h2>Daftar Buku</h2>
+        <p>Temukan berbagai koleksi buku yang tersedia.</p>
+    </div>
+
+    <!-- Pencarian -->
+    <div class="search-box mb-5">
+        <form method="GET" action="{{ url_for('buku') }}">
+
+            <!-- Input Keyword -->
+            <div class="input-group mb-3">
+                <input type="text"
+                       name="keyword"
+                       class="form-control"
+                       placeholder="Cari judul, penulis, kategori, penerbit, atau tahun..."
+                       value="{{ keyword }}">
+                <div class="input-group-append">
+                    <button class="btn-detail" type="submit">
+                        <i class="fas fa-search"></i>
+                        Cari
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dropdown Kategori -->
+            <div class="row">
+                <div class="col-md-4">
+                    <select name="kategori" class="form-control" onchange="this.form.submit()">
+                        <option value=""> --Semua Kategori-- </option>
+                        {% for kat in kategori_list %}
+                        <option value="{{ kat.Kategori }}"
+                            {% if kat.Kategori == selected_kategori %}selected{% endif %}>
+                            {{ kat.Kategori }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Tampilkan info filter aktif -->
+                {% if selected_kategori or keyword %}
+                <div class="col-md-8 d-flex align-items-center">
+                    <small class="text-muted">
+                        Filter aktif:
+                        {% if keyword %}<b>Keyword:</b> "{{ keyword }}" {% endif %}
+                        {% if selected_kategori %}<b>Kategori:</b> {{ selected_kategori }}{% endif %}
+                        — <a href="{{ url_for('buku') }}">Reset Filter</a>
+                    </small>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Card Buku -->
+    <div class="row">
+        {% for book in results %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100 shadow-sm book-card">
+                <img src="{{ book.Gambar }}"
+                     class="card-img-top book-image"
+                     style="height:350px; object-fit:cover;"
+                     alt="{{ book.Judul }}">
+                <div class="card-body d-flex flex-column">
+                    <span class="book-category">{{ book.Kategori }}</span>
+                    <h5 class="book-title">{{ book.Judul }}</h5>
+                    <p class="book-author">{{ book.Penulis }}</p>
+                    <p class="book-publisher">{{ book.Penerbit }}</p>
+                    <p class="book-year">{{ book.Tahun_Terbit }}</p>
+                    <a href="{{ url_for('book_detail', book_id=book.ID_Buku) }}"
+                       class="btn-detail mt-auto">
+                        Lihat Detail
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Jika tidak ada hasil -->
+        {% if not results %}
+        <div class="col-12 text-center mt-5">
+            <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+            <p class="text-muted">Tidak ada buku yang ditemukan.</p>
+            <a href="{{ url_for('buku') }}" class="btn-detail">Lihat Semua Buku</a>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="text-center mt-4">
+        <nav>
+            <ul class="pagination justify-content-center">
+
+                <!-- Tombol Sebelumnya -->
+                <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                    <a class="page-link"
+                       href="{{ url_for('buku', page=page-1, keyword=keyword, kategori=selected_kategori) }}">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+
+                <!-- Nomor Halaman -->
+                {% set start_page = ((page - 1) // 5) * 5 + 1 %}
+                {% set end_page = start_page + 4 %}
+                {% if end_page > total_pages %}
+                    {% set end_page = total_pages %}
+                {% endif %}
+
+                {% for p in range(start_page, end_page + 1) %}
+                <li class="page-item {% if p == page %}active{% endif %}">
+                    <a class="page-link"
+                       href="{{ url_for('buku', page=p, keyword=keyword, kategori=selected_kategori) }}">
+                        {{ p }}
+                    </a>
+                </li>
+                {% endfor %}
+
+                <!-- Tampilkan halaman terakhir -->
+                {% if end_page < total_pages %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       href="{{ url_for('buku', page=total_pages, keyword=keyword, kategori=selected_kategori) }}">
+                        {{ total_pages }}
+                    </a>
+                </li>
+                {% endif %}
+
+                <!-- Tombol Berikutnya -->
+                <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+                    <a class="page-link"
+                       href="{{ url_for('buku', page=page+1, keyword=keyword, kategori=selected_kategori) }}">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+        <!-- Informasi Halaman -->
+        <div class="mt-2">
+            <small class="text-muted">
+                Halaman <b>{{ page }}</b> dari <b>{{ total_pages }}</b>
+            </small>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

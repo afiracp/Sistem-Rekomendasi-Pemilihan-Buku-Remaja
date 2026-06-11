@@ -1,0 +1,36 @@
+{% extends "admin/layout.html" %}
+{% block title %}Riwayat Pencarian{% endblock %}
+{% block content %}
+
+<section class="section">
+<div class="section-header">
+    <h1>Riwayat Pencarian Rekomendasi</h1>
+</div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Query</th>
+                <th>TF-IDF</th>
+                <th>Cosine Similarity</th>
+                <th>Tanggal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+         <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ item.query_pencarian }}</td>
+            <td>
+                <pre style="white-space: pre-wrap;">{{ item.hasil_tfidf }}</pre>
+            </td>
+            <td>
+                <pre style="white-space: pre-wrap;">{{ item.hasil_similarity }}</pre>
+            </td>
+            <td>{{ item.tanggal }}</td>
+         </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

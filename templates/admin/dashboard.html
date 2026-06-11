@@ -1,0 +1,85 @@
+{% extends "admin/layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<section class="section">
+    <div class="section-header">
+        <h1>Dashboard</h1>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="mb-2">
+                Selamat Datang, {{ session['nama_admin'] }}
+            </h4>
+            <p class="mb-0 text-muted">
+                Anda berada di halaman dashboard admin Sistem Rekomendasi Pemilihan Buku Remaja Berbasis Web.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="card card-statistic-1">
+                <div class="card-icon bg-primary">
+                    <i class="far fa-user"></i>
+                </div>
+                <div class="card-wrap">
+                    <div class="card-header">
+                        <h4>Total Admin</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ total_admin }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="card card-statistic-1">
+                <div class="card-icon bg-danger">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="card-wrap">
+                    <div class="card-header">
+                        <h4>Jumlah Buku</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ jumlah_buku }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="card card-statistic-1">
+                <div class="card-icon bg-warning">
+                    <i class="fas fa-list"></i>
+                </div>
+
+                <div class="card-wrap">
+                    <div class="card-header">
+                        <h4>Kategori Buku</h4>
+                    </div>
+
+                    <div class="card-body">
+                        {{ total_kategori }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="card card-statistic-1">
+                <div class="card-icon bg-success">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="card-wrap">
+                    <div class="card-header">
+                        <h4>Total Penerbit</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ total_penerbit }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

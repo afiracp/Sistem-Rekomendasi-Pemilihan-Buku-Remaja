@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block title %}Beranda{% endblock %}
+{% block content %}
+
+<div class="container h-100">
+    <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="col-lg-12">
+            <div class="hero__caption">
+                <span data-animation="fadeInUp" data-delay=".4s">Selamat Datang</span>
+                <h1 data-animation="fadeInUp" data-delay=".6s">SISTEM REKOMENDASI PEMILIHAN BUKU REMAJA BERBASIS WEB</h1>
+                <p data-animation="fadeInUp" data-delay=".8s" style="text-align: justify;">
+                    Temukan buku remaja yang sesuai dengan minat Anda dengan lebih mudah.
+                    Sistem ini memanfaatkan metode Content-Based Filtering untuk memberikan
+                    rekomendasi buku berdasarkan kesamaan informasi seperti judul, kategori,
+                    penulis, penerbit, dan deskripsi buku, sehingga membantu Anda menemukan
+                    bacaan yang menarik, relevan, dan sesuai dengan preferensi membaca.
+                </p>
+                <div class="hero__btn" data-animation="fadeInUp" data-delay="1s">
+                    <a href="{{ url_for('rekomendasi') }}" class="btn hero-btn">Cari Rekomendasi Buku</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="{{ url_for('login') }}" class="login-admin-btn">Login Admin</a>
+{% endblock %}
+
+{% block extra_content %}
+<section class="cara-section">
+    <div class="container">
+       <h2 class="section-title text-center">Cara Mendapatkan Rekomendasi Buku</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 mb-4 text-center">
+                <div class="cara-step">
+                    <div class="step-number">1</div>
+                    <h5>Masukkan Kata Kunci</h5>
+                    <p>Ketikkan kata kunci sesuai buku yang ingin kamu temukan, misalnya judul, kategori atau topik yang kamu minati.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4 text-center">
+                <div class="cara-step">
+                    <div class="step-number">2</div>
+                    <h5>Analisis Konten Buku</h5>
+                    <p>Sistem menganalisis kesamaan konten buku seperti judul, kategori, penulis, penerbit, dan deskripsi menggunakan metode Content-Based Filtering.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4 text-center">
+                <div class="cara-step">
+                    <div class="step-number">3</div>
+                    <h5>Rekomendasi Ditampilkan</h5>
+                    <p>Sistem menampilkan daftar buku yang paling relevan dan sesuai dengan kata kunci yang kamu masukkan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

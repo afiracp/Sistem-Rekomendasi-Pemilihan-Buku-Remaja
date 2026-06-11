@@ -1,0 +1,61 @@
+{% extends "admin/layout.html" %}
+{% block title %}Detail Buku{% endblock %}
+{% block content %}
+
+<section class="section">
+    <div class="section-header">
+        <h1>Data Buku</h1>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="text-center w-100">
+                Detail Data Buku
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="text-center mb-4">
+                {% if book.Gambar %}
+                    {% if book.Gambar.startswith('http') %}
+                        <img src="{{ book.Gambar }}" width="300" height="450" style="object-fit:cover;border:1px solid #ccc;">
+                    {% else %}
+                        <img src="{{ url_for('static', filename=book.Gambar) }}" width="300" height="450" style="object-fit:cover;border:1px solid #ccc;">
+                    {% endif %}
+                {% else %}
+                    <img src="{{ url_for('static', filename='uploads/no-image.png') }}" width="300" height="450" style="object-fit:cover;border:1px solid #ccc;">
+                {% endif %}
+            </div>
+            # DETAIL BUKU
+            <div class="row mb-3">
+                <div class="col-md-3"><strong>ID Buku</strong></div>
+                <div class="col-md-9">: {{ book.ID_Buku }}<hr></div>
+                <div class="col-md-3"><strong>Judul Buku</strong></div>
+                <div class="col-md-9">: {{ book.Judul }}<hr></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3"><strong>Kategori</strong></div>
+                <div class="col-md-9">: {{ book.Kategori }} <hr></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3"><strong>Penulis</strong></div>
+                <div class="col-md-9">: {{ book.Penulis }}<hr>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3"><strong>Penerbit</strong></div>
+                <div class="col-md-9">: {{ book.Penerbit }}<hr></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3"><strong>Tahun Terbit</strong></div>
+                <div class="col-md-9">: {{ book.Tahun_Terbit }}<hr></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"><strong>Deskripsi</strong></div>
+                <div class="col-md-9" style="text-align: justify;">: {{ book.Deskripsi }}</div>
+            </div>
+            <div class="mt-4 text-left">
+                <a href="{{ url_for('data_buku') }}" class="btn btn-primary">Kembali</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
