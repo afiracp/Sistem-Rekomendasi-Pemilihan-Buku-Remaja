@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from functools import wraps
 import pandas as pd
-
+import os
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -12,8 +12,8 @@ from preprocess_data import update_preprocessing
 
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
-import os
 from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'static/uploads'
