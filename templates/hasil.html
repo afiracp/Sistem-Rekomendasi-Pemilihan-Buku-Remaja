@@ -23,12 +23,7 @@
 
                 {% if book.similarity_score %}
                 <p class="text-muted">
-                    Similarity:
-                    {% if book.similarity_score == 1 %}
-                        1
-                    {% else %}
-                        {{ "%.4f"|format(book.similarity_score) }}
-                    {% endif %}
+                    Similarity: {{ '{:g}'.format(round(book.similarity_score,4)) }}
                 </p>
                 {% endif %}
 
