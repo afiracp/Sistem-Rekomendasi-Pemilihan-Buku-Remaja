@@ -2804,4 +2804,24 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     -webkit-transform: scale(1.2, 1.2);
     opacity: 0.0; } }
 
+    html,
+body {
+    height: 100%;
+}
+
+#app,
+.main-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+.main-footer {
+    margin-top: 0;
+}
+
 /*# sourceMappingURL=style.css.map */
