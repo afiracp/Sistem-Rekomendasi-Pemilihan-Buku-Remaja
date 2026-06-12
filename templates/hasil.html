@@ -23,10 +23,14 @@
 
                 {% if book.similarity_score %}
                 <p class="text-muted">
-                    Similarity: {{ '{:g}'.format(round(book.similarity_score,4)) }}
+                    Similarity:
+                    {% if book.similarity_score == 1 %}
+                        1
+                    {% else %}
+                        {{ "%.4f"|format(book.similarity_score) }}
+                    {% endif %}
                 </p>
                 {% endif %}
-
                 <a href="{{ url_for('book_detail', book_id=book.ID_Buku) }}"
                    class="btn-detail mt-auto"> Detail
                 </a>
