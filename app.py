@@ -736,7 +736,8 @@ def edit_buku(id_buku):
 def hapus_buku(book_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM buku WHERE ID_Buku=%s", (book_id,))
+    cursor.execute("DELETE FROM buku_processed WHERE ID_Buku=%s",(book_id,))
+    cursor.execute("DELETE FROM buku WHERE ID_Buku=%s",(book_id,) )
     conn.commit()
     cursor.close()
     conn.close()
