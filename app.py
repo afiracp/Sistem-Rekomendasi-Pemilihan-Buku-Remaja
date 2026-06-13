@@ -71,30 +71,6 @@ def get_recommendations(query, n=10):
         axis=0
     )
 
-    # CEK DF TERM AJAR
-    if "ajar" in terms:
-
-        term_idx = np.where(
-            terms == "ajar"
-        )[0][0]
-
-        print(
-            "DF ajar =",
-            df_values[term_idx]
-        )
-
-        print("\nDokumen yang mengandung 'ajar':\n")
-
-        for i in range(len(data)):
-
-            if term_matrix[i][term_idx] > 0:
-
-                print(
-                    data.iloc[i]["ID_Buku"],
-                    "-",
-                    data.iloc[i]["Judul"]
-                )
-
     # PREPROCESS QUERY
     query_asli = query
     query = preprocess(query)
