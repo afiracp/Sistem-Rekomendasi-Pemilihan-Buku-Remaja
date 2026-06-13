@@ -143,14 +143,24 @@ def get_recommendations(query, n=10):
     tfidf_text = ""
 
     for term_idx in query_word_indices:
-        tfidf_text += (
-            f"Term : {terms[term_idx]}\n\n"
-        )
+        for term_idx in query_word_indices:
 
-        tfidf_text += (
-            f"TF-IDF Query = "
-            f"{round(tfidf_query[0][term_idx],3)}\n\n"
-        )
+            tfidf_text += (
+                f"Term : {terms[term_idx]}\n\n"
+            )
+
+            tfidf_text += (
+                f"DF = {df_values[term_idx]}\n"
+            )
+
+            tfidf_text += (
+                f"IDF = {round(idf[term_idx],3)}\n"
+            )
+
+            tfidf_text += (
+                f"TF-IDF Query = "
+                f"{round(tfidf_query[0][term_idx],3)}\n\n"
+            )
 
         nilai_dokumen = []
 
