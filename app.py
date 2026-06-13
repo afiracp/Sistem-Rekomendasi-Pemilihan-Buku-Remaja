@@ -589,8 +589,12 @@ def tambah_buku():
         if gambar_file and gambar_file.filename != "":
 
             filename = secure_filename(gambar_file.filename)
+            filename = secure_filename(
+                gambar_file.filename
+            )
+
             filepath = os.path.join(
-                app.config['UPLOAD_FOLDER'],
+                app.config["UPLOAD_FOLDER"],
                 filename
             )
 
