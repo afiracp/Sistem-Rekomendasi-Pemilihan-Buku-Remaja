@@ -36,7 +36,6 @@
             </div>
 
             <div class="card-body">
-              # FLASH MESSAGE
               {% with messages = get_flashed_messages(with_categories=true) %}
                   {% if messages %}
                       {% for category, message in messages %}
@@ -52,7 +51,6 @@
                   {% endif %}
               {% endwith %}
 
-              # FORM 
               <form method="POST"
                     action="{{ url_for('register') }}">
                 <div class="form-group">
