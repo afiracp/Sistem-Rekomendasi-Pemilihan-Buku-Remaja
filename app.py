@@ -767,12 +767,14 @@ def kategori_buku():
 @login_required
 def tambah_kategori():
 
-    id_kategori = int(request.form['ID_Kategori'])
-    kategori = request.form['kategori'].strip()
+    id_kategori = request.form.get('ID_Kategori')
+    kategori = request.form.get('kategori', '').strip()
 
-    if not kategori:
-        flash('Nama kategori tidak boleh kosong!', 'danger')
+    if not id_kategori:
+        flash('ID Kategori tidak boleh kosong!', 'danger')
         return redirect(url_for('kategori_buku'))
+
+    id_kategori = int(id_kategori)
 
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
