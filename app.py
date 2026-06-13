@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from functools import wraps
 import pandas as pd
-import os
+
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -12,8 +12,8 @@ from preprocess_data import update_preprocessing
 
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
+import os
 from werkzeug.utils import secure_filename
-
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'static/uploads'
@@ -83,9 +83,22 @@ def get_recommendations(query, n=10):
         return []
 
     # TF
-    total_query = query_counts.sum()
-    tf_query = query_counts / total_query
+    jumlah_term_query = np.count_nonzero(
+    query_counts
+    )
 
+    tf_query = np.zeros_like(
+        query_counts,
+        dtype=float
+    )
+
+    if jumlah_term_query > 0:
+
+        tf_query[0, query_word_indices] = (
+            query_counts[0, query_word_indices]
+            / jumlah_term_query
+        )
+    
     tf = np.zeros_like(
         term_matrix,
         dtype=float
@@ -97,8 +110,10 @@ def get_recommendations(query, n=10):
         )
 
         if total_term_query > 0:
-            tf[i, query_word_indices
-            ] = ( term_matrix[i][query_word_indices] /total_term_query)
+            tf[i, query_word_indices] = (
+                term_matrix[i][query_word_indices]
+                / total_term_query
+            )
 
     # IDF
     idf = np.zeros(len(terms))
@@ -116,6 +131,7 @@ def get_recommendations(query, n=10):
     # TF-IDF
     tfidf_query = tf_query * idf
     tfidf = tf * idf
+    
 
     # COSINE SIMILARITY
     similarity = cosine_similarity(
@@ -125,13 +141,55 @@ def get_recommendations(query, n=10):
 
     # SIMPAN RIWAYAT
     tfidf_text = ""
-    for idx in query_word_indices:
 
+    for term_idx in query_word_indices:
         tfidf_text += (
-            f"{terms[idx]} = "
-            f"{round(tfidf_query[0][idx],3)}\n"
+            f"Term : {terms[term_idx]}\n\n"
         )
 
+        tfidf_text += (
+            f"TF-IDF Query = "
+            f"{round(tfidf_query[0][term_idx],3)}\n\n"
+        )
+
+        nilai_dokumen = []
+
+        for doc_idx in range(len(data)):
+
+            nilai = tfidf[
+                doc_idx,
+                term_idx
+            ]
+
+            if nilai > 0:
+
+                nilai_dokumen.append(
+                    (
+                        data.iloc[doc_idx]["Judul"],
+                        nilai
+                    )
+                )
+
+        nilai_dokumen = sorted(
+            nilai_dokumen,
+            key=lambda x: x[1],
+            reverse=True
+        )[:3]
+
+        tfidf_text += "Top TF-IDF Dokumen:\n"
+
+        for i, (judul, nilai) in enumerate(
+            nilai_dokumen,
+            start=1
+        ):
+
+            tfidf_text += (
+                f"{i}. {judul} = "
+                f"{round(nilai,3)}\n"
+            )
+
+        tfidf_text += "\n"
+        
     top_similarity = np.argsort(similarity)[::-1][:10]
 
     similarity_text = ""
@@ -193,6 +251,7 @@ def get_recommendations(query, n=10):
     return hasil.to_dict(
         orient="records"
     )
+
 
 # DETAIL BUKU
 def get_book_by_id(book_id):

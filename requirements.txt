@@ -1,8 +1,9 @@
 Flask
 gunicorn
+mysql-connector-python
 pandas
 numpy
 scikit-learn
-mysql-connector-python
 nltk
 Sastrawi
+Werkzeug
