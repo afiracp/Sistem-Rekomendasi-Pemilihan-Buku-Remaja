@@ -250,10 +250,6 @@ def get_recommendations(query, n=10):
         ] > 0
     ]
 
-    hasil = hasil.drop_duplicates(
-        subset="Judul"
-    )
-
     hasil = hasil.head(n)
 
     return hasil.to_dict(
