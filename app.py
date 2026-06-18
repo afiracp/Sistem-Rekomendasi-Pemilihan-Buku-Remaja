@@ -733,6 +733,7 @@ def edit_buku(id_buku):
 
     update_preprocessing(id_buku)
     flash('Data buku berhasil diperbarui.', 'success')
+    page = request.args.get('page', 1)
     return redirect(url_for('data_buku'))
 
 @app.route('/hapus_buku/<int:book_id>')
@@ -876,7 +877,7 @@ def edit_kategori(id):
     cursor.close()
     conn.close()
     
-    flash('Kategori berhasil diperbarui.')
+    flash('Kategori berhasil diperbarui','success')
     return redirect(url_for('kategori_buku'))
 
 @app.route('/hapus_kategori/<int:id>')
@@ -903,7 +904,7 @@ def hapus_kategori(id):
     cursor.close()
     conn.close()
     
-    flash('Kategori berhasil dihapus.')
+    flash('Kategori berhasil dihapus','success')
     return redirect(url_for('kategori_buku'))
 
 @app.route('/daftar_admin')
