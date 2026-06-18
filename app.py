@@ -51,7 +51,6 @@ def load_data():
     return data
 
 
-
 def get_recommendations(query, n=10):
     data = load_data()
 
@@ -733,8 +732,9 @@ def edit_buku(id_buku):
 
     update_preprocessing(id_buku)
     flash('Data buku berhasil diperbarui.', 'success')
+
     page = request.args.get('page', 1)
-    return redirect(url_for('data_buku'))
+    return redirect(url_for('data_buku', page=page))
 
 @app.route('/hapus_buku/<int:book_id>')
 @login_required
